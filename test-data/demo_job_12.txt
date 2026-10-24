@@ -1,0 +1,14 @@
+
+NCPUs Requested: 104
+Memory Requested: 483183820800 B
+Job Id: 1234.gadi-pbs
+Job Name: demo_job_12
+Job Owner: demo_user
+Queue: normalsr-exec
+Job State: Completed
+NCPUs Used: 104
+CPU Time Used: 00:40:27
+Walltime Used: 00:08:41
+Walltime Requested: 04:00:00
+Start Time: 2025-09-25T20:47:29
+End Time: 2025-09-25T20:56:10
