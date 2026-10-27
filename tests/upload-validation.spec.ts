@@ -135,7 +135,7 @@ test('Test5: Submit enabled when form is complete - recurring job2', async ({ pa
         mode:'new'
     });
 
-  const recurringName1=recurringName
+//   const recurringName1=recurringName
   
   
   //second
@@ -143,7 +143,7 @@ test('Test5: Submit enabled when form is complete - recurring job2', async ({ pa
   const jobName2 = `playwright-job-${crypto.randomUUID()}`;
   await uploadFiles(page);
   await submitJob(page,jobName2,{
-    name:recurringName1,
+    name:recurringName,
     mode:'existing'
   });
 
@@ -163,7 +163,7 @@ test('Test5: Submit enabled when form is complete - recurring job2', async ({ pa
 
   const card = page.locator('article').filter({
   has: page.getByRole('heading', {
-    name: recurringName1,
+    name: recurringName,
     exact: true
   })
 });
