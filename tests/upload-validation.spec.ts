@@ -11,15 +11,15 @@
  */
 
 import { test, expect, type Page } from '@playwright/test';
+import { openUploadPage } from '../helpers/navigation';
 
 
+// async function openUploadPage(page: Page) {
+//   await page.goto('/');
+//   await page.getByText('Upload', { exact: true }).click();
 
-async function openUploadPage(page: Page) {
-  await page.goto('/');
-  await page.getByText('Upload', { exact: true }).click();
-
-  await expect( page.getByRole('button', { name: 'Submit Job data' }) ).toBeVisible();
-}
+//   await expect( page.getByRole('button', { name: 'Submit Job data' }) ).toBeVisible();
+// }
 
 
 async function uploadFiles(page: Page) {

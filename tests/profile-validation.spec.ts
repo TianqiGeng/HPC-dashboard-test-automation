@@ -2,10 +2,10 @@ import { test, expect, type Page  } from '@playwright/test';
 import { openProfile } from '../helpers/navigation';
 
 // 1. Open Profile
-export async function openProfile(page: Page) {
-  await page.goto('/');
-  await page.getByText('Profile', { exact: true }).click();
-}
+// export async function openProfile(page: Page) {
+//   await page.goto('/');
+//   await page.getByText('Profile', { exact: true }).click();
+// }
 
 // 2. Find recurring job and get its name
 export async function getRecurringJob(page: Page) {

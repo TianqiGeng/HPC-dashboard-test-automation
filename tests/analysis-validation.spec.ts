@@ -1,18 +1,18 @@
 import { test, expect, Page } from '@playwright/test';
 
-
 import { openAnalysis } from '../helpers/navigation';
 import { getSearchInput } from '../helpers/search';
 
-// Common Helpers
-async function openAnalysis(page: Page) {
-  await page.goto('/');
-  await page.getByText('Recurring Analysis', { exact: true }).click();
-}
 
-function getSearchInput(page: Page) {
-  return page.getByPlaceholder('Search by Job Name or Job ID...');
-}
+// Common Helpers
+// async function openAnalysis(page: Page) {
+//   await page.goto('/');
+//   await page.getByText('Recurring Analysis', { exact: true }).click();
+// }
+
+// function getSearchInput(page: Page) {
+//   return page.getByPlaceholder('Search by Job Name or Job ID...');
+// }
 
 // Test Data
 
