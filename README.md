@@ -57,7 +57,7 @@ HPC-dashboard-test-automation/
 ├── .github/
 │   └── workflows/
 ├── docs/
-│   └── images/
+│   └── development-log.md
 ├── helpers/
 │   ├── navigation.ts
 │   └── search.ts
@@ -84,6 +84,8 @@ Common navigation and search operations are implemented as reusable helper funct
 ### Sequential E2E Execution
 
 The E2E workflow uses Playwright project dependencies to coordinate tests that share application data.
+
+The Upload suite is executed twice to generate sufficient test data (jobs and recurring jobs) for subsequent Profile, Analysis, and Jobs test scenarios. This reduces the risk of downstream tests failing due to insufficient test records.
 
 ```text
 Upload
@@ -190,7 +192,7 @@ npx playwright test --project=chromium --trace on
 
 ### Test Execution Report
 
-![Playwright HTML Report](docs/images/playwright-html-report.png)
+![Playwright HTML Report](docs/playwright-html-report.png)
 
 ## CI/CD Integration
 
@@ -246,7 +248,7 @@ It is manually triggered using `workflow_dispatch`. The CI pipeline currently ex
 
 ### Successful GitHub Actions Execution
 
-![Successful Playwright E2E CI run](docs/images/github-actions-success.png)
+![Successful Playwright E2E CI run](docs/github-actions-success.png)
 
 ## Project Highlights
 

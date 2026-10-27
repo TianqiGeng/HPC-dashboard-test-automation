@@ -69,10 +69,10 @@ I reviewed how to use `expect(locator).toBeVisible()` and `toHaveCount()` to wai
 
 There are still a few fixed waits in the tests that I want to replace.
 
+
+
 ### Shared helpers
-
 Some navigation and search code was repeated across test files.
-
 I decided to keep the structure simple for now, using two shared helper files:
 
 ```text
@@ -83,16 +83,26 @@ helpers/
 
 Started moving the repeated functions into these files. I still need to finish updating the tests and run them again.
 
-### Other things to fix
+## Day 5 — Refactoring, Test Data Management & CI Integration
+### 1. Test Code Refactoring
+- Extracted common navigation and search operations into reusable helper functions to reduce code duplication.
+- Consolidated related test cases into the same TypeScript test files for better organization and execution.
 
-- Review test data cleanup, especially tests that create or delete jobs.
-- Remove unused code and outdated comments.
-- Check whether custom fixtures would actually help.
-- Clean up duplicate settings in `playwright.config.ts`.
+### 2. Test Execution & Data Management
+- Configured sequential test execution using Playwright project dependencies.
+- Implemented automated cleanup of test-generated jobs and recurring jobs using Playwright teardown.
+- Used dedicated naming prefixes to identify test data and avoid affecting unrelated records.
+- Executed the Upload suite twice to ensure sufficient test data for downstream scenarios.
 
-## Next
+### 3. GitHub Actions CI Integration
+- Encountered permission issues when attempting to access the private application repository from the public test repository.
+- Resolved the issue by creating a GitHub Actions workflow in the private repository that checks out the public Playwright tests.
+- Integrated Docker Compose to start the application, verify frontend/backend readiness, execute E2E tests, upload reports, and clean up the environment.
+- **Result:** Successfully completed the E2E workflow in **2m 55s**.
 
-- Finish the helper refactoring and rerun the tests.
-- Improve test cleanup and synchronization.
-- Run the full suite across browsers.
-- Revisit GitHub Actions once I have a way to run the application in CI.
+### 4. Documentation
+- Updated the README with test coverage, framework design, execution instructions, and CI integration.
+- Added GitHub Actions execution evidence and updated the development log.
+
+## Summary
+Improved test maintainability, established automated test data management, and successfully integrated the Playwright E2E suite into a Docker-based GitHub Actions CI workflow.
