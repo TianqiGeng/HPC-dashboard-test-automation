@@ -1,69 +1,98 @@
-# Playwright Automation Framework — Development Log
+# Playwright Automation — Development Log
 
-## Project Overview
+This repository contains Playwright tests written in TypeScript for a locally running HPC Dashboard application. The application source code is private and is not included here.
 
-**Objective:** Build an independent, maintainable end-to-end testing framework using Playwright and TypeScript.
+I'm using this project to practice Playwright and build a small, maintainable UI automation test suite.
 
-**Application Under Test:** A locally hosted web application used for testing practice. The application's proprietary source code is not included in this repository.
+## Day 1 — Project Setup
 
-**Tech Stack:** Playwright, TypeScript, Node.js, GitHub Actions.
+Set up the Playwright project and connected it to GitHub.
 
----
+- Initialized Playwright with TypeScript.
+- Installed dependencies and browser binaries.
+- Configured the test directory and local application URL.
+- Ran the sample test to check that Playwright was working.
+- Committed and pushed the initial project to GitHub.
 
-## Day 1 — Framework Initialization
+## Day 2 — Upload Tests
 
-### Task 1: Project Setup
+Started with the Upload module and wrote five test cases.
 
-**Goal:** Initialize a Playwright testing project and connect it to GitHub.
+The tests cover file uploads, job submission, and recurring job workflows.
 
-**Steps:**
-1. Created an empty GitHub repository.
-2. Created a local project directory.
-3. Initialized Playwright using the official project setup tool.
-4. Configured TypeScript and the test directory.
-5. Executed the sample test to verify the environment.
-6. Committed and pushed the initial framework.
+A few things took longer than expected:
 
-**Result:** Pending verification.
+- Some locators matched multiple elements, so I had to make them more specific.
+- Test execution was not always stable. I disabled fully parallel execution while investigating.
+- Some test steps were repeated, so I extracted them into helper functions.
 
-### Task 2: First E2E Test
+All five Upload tests passed locally.
 
-**Goal:** Implement the first browser-based test against the local application.
+I also looked into running the tests with GitHub Actions and Docker Compose. This is still pending because the application currently runs locally and is not available to GitHub-hosted runners.
 
-**Planned work:**
-- Configure the application's base URL.
-- Identify a stable test scenario.
-- Write and execute the first Playwright test.
-- Review test results and failures.
+## Day 3 — More Test Cases
 
-**Result:** Not started.
+Added tests for the other three modules: Profile, Recurring Analysis, and Job Explorer.
 
----
+The new tests cover:
 
-## Technical Decisions
+- Renaming and deleting jobs
+- Searching by job name or ID
+- Switching between analysis charts
+- Viewing job details
+- Exporting PDF and JSON files
+- Filtering jobs by date range and resetting filters
 
-**Why Playwright?**
+One useful thing I learned was how to locate the correct Job Card when several cards contain similar buttons.
 
-Playwright provides browser automation, built-in assertions, automatic waiting, tracing, and support for multiple browsers.
+I used an XPath ancestor selector to find the card associated with a particular Job ID, then searched for buttons within that card instead of the entire page.
 
-**Why TypeScript?**
+For file downloads, I used `page.waitForEvent('download')` before clicking the export button, then checked the downloaded file name and failure status.
 
-TypeScript provides static typing and improves code maintainability, especially as the test framework grows.
+The tests passed locally.
 
----
+## Day 4 — Code Review and Cleanup
 
-## Issues and Lessons Learned
+Went back through the tests to review the code and understand a few things I had used without fully thinking through.
 
-| Issue | Root Cause | Resolution |
-|---|---|---|
-| To be documented | To be investigated | To be documented |
+### Locators
 
----
+Reviewed how Playwright locators work, especially when multiple elements have the same text or button name.
 
-## Next Steps
+I also looked more closely at the XPath selector used to find a Job Card.
 
-- Implement Page Object Model.
-- Introduce reusable fixtures.
-- Manage test data and environment configuration.
-- Configure HTML reports and failure artifacts.
-- Integrate automated tests with GitHub Actions.
+### Waiting and timing
+
+Ran into an issue with `locator.count()`. It returns the current number of matching elements instead of waiting for them to appear.
+
+I reviewed how to use `expect(locator).toBeVisible()` and `toHaveCount()` to wait for the page to reach the expected state.
+
+There are still a few fixed waits in the tests that I want to replace.
+
+### Shared helpers
+
+Some navigation and search code was repeated across test files.
+
+I decided to keep the structure simple for now, using two shared helper files:
+
+```text
+helpers/
+  navigation.ts
+  search.ts
+```
+
+Started moving the repeated functions into these files. I still need to finish updating the tests and run them again.
+
+### Other things to fix
+
+- Review test data cleanup, especially tests that create or delete jobs.
+- Remove unused code and outdated comments.
+- Check whether custom fixtures would actually help.
+- Clean up duplicate settings in `playwright.config.ts`.
+
+## Next
+
+- Finish the helper refactoring and rerun the tests.
+- Improve test cleanup and synchronization.
+- Run the full suite across browsers.
+- Revisit GitHub Actions once I have a way to run the application in CI.

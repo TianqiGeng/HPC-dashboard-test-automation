@@ -13,6 +13,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
 
+
 async function openUploadPage(page: Page) {
   await page.goto('/');
   await page.getByText('Upload', { exact: true }).click();
@@ -49,6 +50,7 @@ async function submitJob(page: Page, jobName: string,  recurring?: {
       await page.locator('select').selectOption({
         label: recurring.name
       });
+      await page.waitForTimeout(1000)
     }
   }
 
@@ -95,11 +97,11 @@ test('Test3: Submit enabled when form is complete - job', async ({ page }) => {
   await submitJob(page,jobName);
  
   await page.getByText('Jobs', { exact: true }).click();
-
-
+  const start = Date.now();
   await expect(
     page.getByText(jobName, { exact: true })
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 1000 });
+  console.log('Job visible after ' + (Date.now() - start) + 'ms');
 });
 
 
@@ -137,13 +139,13 @@ test('Test5: Submit enabled when form is complete - recurring job2', async ({ pa
   
   
   //second
-  await page.waitForTimeout(3000)
- const jobName2 = `playwright-job-${crypto.randomUUID()}`;
- await uploadFiles(page);
- await submitJob(page,jobName2,{
+  await page.waitForTimeout(1000)
+  const jobName2 = `playwright-job-${crypto.randomUUID()}`;
+  await uploadFiles(page);
+  await submitJob(page,jobName2,{
     name:recurringName1,
     mode:'existing'
- });
+  });
 
 //   const jobName2 = `playwright-job-${Date.now()}`;
 //   await page.getByLabel('Job Name').fill(jobName2);
