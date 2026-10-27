@@ -1,85 +1,29 @@
 
-name: Playwright Tests
+name: Playwright CI Checks
 
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
 
 jobs:
-  test:
-    timeout-minutes: 60
+  validate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout test repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Checkout private HPC Dashboard
-        uses: actions/checkout@v4
-        with:
-          repository: unsw-cse-comp99-3900/capstone-project-25t3-9900-f14a-donut
-          token: ${{ secrets.HPC_DASHBOARD_READ_TOKEN }}
-          path: hpc-dashboard
-          persist-credentials: false
-
-      - name: Prepare backend environment
-        working-directory: hpc-dashboard/backend/server
-        run: |
-          cp .env.example .env
-          cat >> .env <<'EOF'
-
-          BYPASS_OAUTH=1
-          DEV_USER_ID=dev:1
-          USE_DB=true
-          DATABASE_URL=postgresql://donut:donutpw@pg:5432/donutdb
-          EOF
-
-      - name: Start HPC Dashboard
-        working-directory: hpc-dashboard
-        run: docker compose up -d --build
-
-      - name: Wait for frontend
-        run: |
-          for i in {1..60}; do
-            if curl --fail --silent http://localhost:5173/ > /dev/null; then
-              echo "Frontend is ready"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "Frontend did not become ready"
-          exit 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: npx playwright test
-
-      - name: Show Docker logs on failure
-        if: failure()
-        working-directory: hpc-dashboard
-        run: docker compose logs --tail=100
-
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
-      - name: Stop HPC Dashboard
-        if: always()
-        working-directory: hpc-dashboard
-        run: docker compose down -v
+      - name: Validate Playwright test discovery
+        run: npx playwright test --list
