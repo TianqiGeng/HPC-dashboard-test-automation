@@ -17,6 +17,7 @@ export default defineConfig({
     },
     {
       name: '00-upload',
+      dependencies: ['pre-cleanup'],
       testMatch: '**/upload-validation.spec.ts',
       use: { ...devices['Desktop Chrome'] },
       teardown: 'cleanup',
@@ -26,7 +27,6 @@ export default defineConfig({
       dependencies: ['00-upload'],
       testMatch: '**/upload-validation.spec.ts',
       use: { ...devices['Desktop Chrome'] },
-      teardown: 'cleanup',
     },
     
     {

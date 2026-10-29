@@ -106,3 +106,14 @@ Started moving the repeated functions into these files. I still need to finish u
 
 ## Summary
 Improved test maintainability, established automated test data management, and successfully integrated the Playwright E2E suite into a Docker-based GitHub Actions CI workflow.
+
+
+**Day 6:**
+- Wrote and organized technical blog posts about the Playwright E2E automation testing project.
+- Documented practical examples covering Locators, Helpers, browser events, and test data cleanup.
+
+**Day 7:**
+- Continued writing Playwright technical blogs, focusing on Project Dependencies, Teardown, and CI/CD integration.
+- Documented the Docker Compose + GitHub Actions workflow for running E2E tests.
+- Organized the blog series and updated related screenshots and documentation.
+[CSDN](https://blog.csdn.net/u013716535/category_13221467.html)
