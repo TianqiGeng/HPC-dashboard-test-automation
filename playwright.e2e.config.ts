@@ -11,6 +11,14 @@ export default defineConfig({
   
   projects: [
     {
+      name: 'api',
+      testDir: './tests/api',
+      testMatch: '**/*.api.spec.ts',
+      use: {
+        baseURL: 'http://localhost:5001',
+      },
+    },
+    {
       name: 'pre-cleanup',
       testMatch: '**/clearTestData-validation.spec.ts',
       use: { ...devices['Desktop Chrome'] },
